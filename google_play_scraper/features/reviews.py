@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 import json
 from time import sleep
-from typing import List, Optional, Tuple
 
 from google_play_scraper import Sort
 from google_play_scraper.constants.element import ElementSpecs
@@ -39,9 +40,9 @@ def _fetch_review_items(
     app_id: str,
     sort: int,
     count: int,
-    filter_score_with: Optional[int],
-    filter_device_with: Optional[int],
-    pagination_token: Optional[str],
+    filter_score_with: int | None,
+    filter_device_with: int | None,
+    pagination_token: str | None,
 ):
     dom = post(
         url,
@@ -49,8 +50,8 @@ def _fetch_review_items(
             app_id,
             sort,
             count,
-            "null" if filter_score_with is None else filter_score_with,
-            "null" if filter_device_with is None else filter_device_with,
+            "null" if filter_score_with is None else filter_score_with,  # type: ignore[arg-type]
+            "null" if filter_device_with is None else filter_device_with,  # type: ignore[arg-type]
             pagination_token,
         ),
         {"content-type": "application/x-www-form-urlencoded"},
@@ -73,11 +74,11 @@ def reviews(
     country: str = "us",
     sort: Sort = Sort.NEWEST,
     count: int = 100,
-    filter_score_with: int = None,
-    filter_device_with: int = None,
-    continuation_token: _ContinuationToken = None,
-) -> Tuple[List[dict], _ContinuationToken]:
-    sort = sort.value
+    filter_score_with: int | None = None,
+    filter_device_with: int | None = None,
+    continuation_token: _ContinuationToken | None = None,
+) -> tuple[list[dict], _ContinuationToken]:
+    sort = sort.value  # type: ignore[assignment]
 
     if continuation_token is not None:
         token = continuation_token.token

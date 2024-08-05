@@ -7,8 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 3
+      fail-fast: false
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9, 3.10]
+        python-version: [3.6, 3.7, 3.8, 3.9, "3.10"]
 
     steps:
     - uses: actions/checkout@v1
@@ -18,5 +19,25 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
+    - name: Install
+      run: pip install . pytest
+
     - name: Run tests
       run: pytest
+
+  typing:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: pip install . mypy
+
+    - name: Run mypy
+      run: mypy google_play_scraper

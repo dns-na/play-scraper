@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from datetime import datetime
-from typing import Any, Callable, List, Optional
+from typing import Any, Callable
 
 from google_play_scraper.utils import nested_lookup
 from google_play_scraper.utils.data_processors import unescape_text
@@ -8,9 +10,9 @@ from google_play_scraper.utils.data_processors import unescape_text
 class ElementSpec:
     def __init__(
         self,
-        ds_num: Optional[int],
-        data_map: List[int],
-        post_processor: Callable = None,
+        ds_num: int | None,
+        data_map: list[int],
+        post_processor: Callable | None = None,
         fallback_value: Any = None,
     ):
         self.ds_num = ds_num

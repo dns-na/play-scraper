@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 
 PLAY_STORE_BASE_URL = "https://play.google.com"
@@ -53,7 +55,7 @@ class Formats:
             count: int,
             filter_score_with: int,
             filter_device_with: int,
-            pagination_token: str,
+            pagination_token: str | None,
         ) -> bytes:
             if pagination_token is not None:
                 result = self.PAYLOAD_FORMAT_FOR_PAGINATED_PAGE.format(

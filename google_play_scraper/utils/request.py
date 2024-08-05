@@ -31,7 +31,7 @@ def post(url: str, data: Union[str, bytes], headers: dict) -> str:
     rate_exceeded_count = 0
     for _ in range(MAX_RETRIES):
         try:
-            resp = _urlopen(Request(url, data=data, headers=headers))
+            resp = _urlopen(Request(url, data=data, headers=headers))  # type: ignore[arg-type]
         except Exception as e:
             last_exception = e
             continue
@@ -41,7 +41,7 @@ def post(url: str, data: Union[str, bytes], headers: dict) -> str:
             time.sleep(RATE_LIMIT_DELAY * rate_exceeded_count)
             continue
         return resp
-    raise last_exception
+    raise last_exception  # type: ignore[misc]
 
 
 def get(url: str) -> str:
