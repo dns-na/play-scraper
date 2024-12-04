@@ -38,8 +38,8 @@ def search(
             dataset[key] = value
 
     try:
-        top_result = dataset["ds:4"][0][1][0][23][16]
-    except IndexError:
+        top_result = dataset["ds:4"][0][1][1][23][16]
+    except Exception:
         top_result = None
 
     success = False
