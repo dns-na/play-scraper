@@ -190,6 +190,18 @@ class ElementSpecs:
 
     PermissionType = ElementSpec(None, [0])
 
+    List = {        
+        "appId": ElementSpec(None, [0, 0, 0]),
+        "title": ElementSpec(None, [0, 3]),
+        "icon": ElementSpec(None, [0, 1, 3, 2]),
+        "developer": ElementSpec(None, [0, 14]),
+        "currency": ElementSpec(None, [0, 8, 1, 0, 0]),
+        "description": ElementSpec(None, [0, 13, 1],unescape_text),
+        "score": ElementSpec(None, [0, 4, 1]),
+        "scoreText": ElementSpec(None, [0, 4, 1]),
+        "price": ElementSpec(None, [0, 8, 1, 0, 0], lambda price: (price / 1000000) or 0)
+    }
+
     PermissionList = ElementSpec(
         None, [2], lambda container: sorted([item[1] for item in container])
     )
@@ -239,4 +251,27 @@ class ElementSpecs:
         "descriptionHTML": ElementSpec(None, [0, 13, 1]),
         "developer": ElementSpec(None, [0, 14]),
         "installs": ElementSpec(None, [0, 15]),
+    }
+
+    Developer = {
+        "appId": ElementSpec(None, [0, 0]),
+        "title": ElementSpec(None,[3]),
+        "description": ElementSpec(None,[13, 1],unescape_text),
+        "icon": ElementSpec(None, [1, 3, 2]),
+        "developer": ElementSpec(None, [14]),
+        "currency": ElementSpec(None, [8, 1, 0, 1]),
+        "price": ElementSpec(None, [8, 1, 0, 0], lambda price: (price / 1000000) or 0),
+        "score": ElementSpec(None, [4, 1]),
+        "scoreText": ElementSpec(None, [4, 0])
+    }
+
+    Similar = {
+        "appId": ElementSpec(None, [0, 0]),
+        "title": ElementSpec(None,[3]),
+        "description": ElementSpec(None,[13, 1],unescape_text),
+        "developer": ElementSpec(None, [14]),
+        "currency": ElementSpec(None, [8, 1, 0, 1]),
+        "price": ElementSpec(None, [8, 1, 0, 0], lambda price: (price / 1000000) or 0),
+        "score": ElementSpec(None, [4, 1]),
+        "scoreText": ElementSpec(None, [4, 0])
     }
