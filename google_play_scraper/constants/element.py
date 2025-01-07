@@ -240,3 +240,14 @@ class ElementSpecs:
         "developer": ElementSpec(None, [0, 14]),
         "installs": ElementSpec(None, [0, 15]),
     }
+
+    Similar = {
+        "appId": ElementSpec(None, [0, 0]),
+        "title": ElementSpec(None,[3]),
+        "description": ElementSpec(None,[13, 1],unescape_text),
+        "developer": ElementSpec(None, [14]),
+        "currency": ElementSpec(None, [8, 1, 0, 1]),
+        "price": ElementSpec(None, [8, 1, 0, 0], lambda price: (price / 1000000) or 0),
+        "score": ElementSpec(None, [4, 1]),
+        "scoreText": ElementSpec(None, [4, 0])
+    }
