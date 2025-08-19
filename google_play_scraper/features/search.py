@@ -39,8 +39,11 @@ def search(
 
     try:
         top_result = dataset["ds:4"][0][1][0][23][16]
-    except IndexError:
-        top_result = None
+    except:
+        try:
+            top_result = dataset["ds:4"][0][1][1][23][16]
+        except (IndexError, KeyError, TypeError):
+            top_result = None
 
     success = False
     # different idx for different countries and languages
@@ -66,7 +69,7 @@ def search(
         else []
     )
 
-    for app_idx in range(n_apps - len(search_results)):
+    for app_idx in range(n_apps):
         app = {}
         for k, spec in ElementSpecs.SearchResult.items():
             content = spec.extract_content(dataset[app_idx])
