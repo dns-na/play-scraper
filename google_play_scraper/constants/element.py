@@ -21,7 +21,16 @@ class ElementSpec:
     def extract_content(self, source: dict) -> Any:
         try:
             if self.ds_num is None:
-                result = nested_lookup(source, self.data_map)
+                # Special handling for mixed int/string paths
+                current = source
+                for key in self.data_map:
+                    if isinstance(current, dict):
+                        current = current[key]
+                    elif isinstance(current, list):
+                        current = current[key]
+                    else:
+                        raise KeyError(f"Cannot index {type(current)} with {key}")
+                result = current
             else:
                 result = nested_lookup(
                     source["ds:{}".format(self.ds_num)], self.data_map
@@ -29,7 +38,9 @@ class ElementSpec:
 
             if self.post_processor is not None:
                 result = self.post_processor(result)
-        except:
+        except Exception as e:
+            # NOTE: JoMingyu: the errors like list index out of range are caught pretty often. Others too
+            # print('Error: ', e)
             if isinstance(self.fallback_value, ElementSpec):
                 result = self.fallback_value.extract_content(source)
             else:
@@ -195,7 +206,11 @@ class ElementSpecs:
     )
 
     SearchResultOnTop = {
-        "appId": ElementSpec(None, [11, 0, 0]),
+        "appId": ElementSpec(
+            None, 
+            [3, "12", 0, 0],
+            fallback_value=ElementSpec(None, [11, 0, 0])
+        ),
         "icon": ElementSpec(None, [2, 95, 0, 3, 2]),
         "screenshots": ElementSpec(
             None,
